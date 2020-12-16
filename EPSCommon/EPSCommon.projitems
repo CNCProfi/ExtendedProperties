@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)props\EP.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)props\Initializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)props\PConstrains.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)props\BasicConstrains.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)props\shorts\C.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)props\shorts\I.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)utils\lo.cs" />
