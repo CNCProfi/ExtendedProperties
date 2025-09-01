@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,17 +23,21 @@ namespace com.audionysos.general.props {
 		public readonly string description;
 		/// <summary>Constrains used when setting extended property created using this info object.
 		/// Any change of in this constrains will affect all instances of the property even if those changes were made after property instantiation.</summary>
-		public readonly PConstrains constrains;
+		public PConstrains constrains { get; private set; }
 		/// <summary>Static initializer invoked when this instance where initialized.</summary>
 		public readonly EPInitializer<EPInfo> initializer;
 		/// <summary>Instance initializer invoked once after an instance of property this info describes is created.</summary>
 		public readonly EPInitializer<EP> instanceInitializer;
 
+		/// <summary>Indicate that static initializer is currently been invoked.</summary>
+		private bool isInitializng = false;
+
 		/// <summary>Creates new extended property info.</summary>
 		/// <param name="owner">Type which owns described property.</param>
 		/// <param name="address">Property name defined in owner type, usually acquired with <see cref="nameof"/> syntax.</param>
 		/// <param name="staticInitializer">Static initializer invoked once after whole info abject is set.
-		/// You can use existing initializers or write you own to perform any additional stuff needed when property is define.</param>
+		/// You can use existing initializers or write you own to perform any additional stuff needed when property is define.
+		/// Static initializers should not be reused by different properties/<see cref="EPInfo"/> instances. If you want to share common setup, for many properties, created a method or property that is creating new instances of initializers.</param>
 		/// <param name="name">Name of the property displayed to front-end user. If name is not specified, property address is used as a name.</param>
 		/// <param name="info">Short info for front-end user about what this property represents.</param>
 		/// <param name="description">Detailed description about property usage.</param>
@@ -47,7 +52,20 @@ namespace com.audionysos.general.props {
 			this.constrains = constrains;
 			this.instanceInitializer = instanceInitializer;
 			this.initializer = staticInitializer;
+
+			isInitializng = true;
 			initializer?.initialize(this);
+			isInitializng = false;
+		}
+
+		/// <summary>This method is for use by static <see cref="initializer"/>, that is working with constrains and can be called if no explicit constrains were specified by the programmer to set the <see cref="constrains"/> property.
+		/// This method cane be called only form <see cref="EPInitializer{T}.initialize(T)"/> method and if current constrain object is null, otherwise an exception will be thrown.</summary>
+		/// <param name="cs">Constrains object to which set the property. If null given, base <see cref="PConstrains"/> type is used.</param>
+		public PConstrains initalizeConstrains(PConstrains cs = null) {
+			if (!isInitializng) throw new InvalidOperationException($@"The {nameof(initalizeConstrains)} method can be called only from initialize() method of the static initializer.");
+			if (constrains != null) throw new InvalidOperationException("The constrains are already set.");
+			constrains = cs ?? new PConstrains();
+			return constrains;
 		}
 
 		/// <inheritdoc/>
@@ -69,6 +87,12 @@ namespace com.audionysos.general.props {
 
 		/// <summary>The type of delegate that need to be passed to <see cref="listenEvent(Delegate, EPEvents)"/> and <see cref="muteEvent(Delegate, EPEvents)"/> methods.</summary>
 		public abstract Type eventType { get; }
+
+		/// <summary>Object which owns the property.
+		/// This object may be required by some <see cref="PConstrains"/> but generally it's not mandatory for <see cref="EP"/> to have an owner so it can be null.
+		/// To set this property, the owner object must call <see cref="provideFieldsOwner(object)"/> (typically in it's constructor).
+		/// Constrains which require owner instance to operate should explicitly state that in the documentation.</summary>
+		public object owner { get; private set; }
 
 		/// <summary>If this instance is of <see cref="EP{T}"/> type an given argument are correct,
 		/// this will create appropriate delegate from specified generic method that can be later used as events handler.</summary>
@@ -101,6 +125,25 @@ namespace com.audionysos.general.props {
 		/// Basically this is an <see cref="EPEventHandler{T}"/> where T is the type of extended property.</param>
 		/// <param name="type">Type of event on which to invoke given delegate.</param>
 		public abstract void muteEvent(Delegate ePEventHandler, EPEvents type);
+
+		/// <summary>Sets <see cref="owner"/> to given object to all field of <see cref="EP"/> type. This method should be called only once per object instance.</summary>
+		/// <param name="o"></param>
+		public static void provideFieldsOwner(object o) {
+			var t = o.GetType();
+			while (t != null) {
+				var fs = t.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+				for (int i = 0; i < fs.Length; i++) {
+					var f = fs[i];
+					if (!typeof(EP).IsAssignableFrom(f.FieldType)) continue;
+					var ep = f.GetValue(o) as EP;
+					if (ep == null) return;
+					if (ep.owner != null) throw new InvalidOperationException($@"Owner object was already set for the property of {o}.");
+					ep.owner = o;
+				}
+				t = t.BaseType;
+			}
+		}
+
 	}
 
 	/// <summary>Extended property is wrapper for objects of any type which should be accessed publicly or cared with some uniform manner.
@@ -164,7 +207,7 @@ namespace com.audionysos.general.props {
 			get => _v;
 			set {
 				var i = _v;
-				if(constrains) constrains.apply(value, ref _v);
+				if(constrains) constrains.apply(value, ref _v, owner);
 				else _v = value;
 				if (i != null && !i.Equals(_v)) CHANGED?.Invoke(new EPEvent<T>(this));
 			}
@@ -244,6 +287,9 @@ namespace com.audionysos.general.props {
 		public override int GetHashCode() => value.GetHashCode();
 
 		#endregion
+
+		/// <summary>Creates property instance from a tuple.</summary>
+		public static implicit operator EP<T>((T v, EPInfo i) t) => new EP<T>(t.v, t.i);
 
 		/// <inheritdoc/>
 		public override string ToString() {

@@ -55,13 +55,13 @@ namespace com.audionysos.general.props {
 		public static implicit operator bool(EPInitializer<T> i) => i!=null;
 	}
 
-	/// <summary>Do nothin container for grouping other initializers.</summary>
+	/// <summary>Do nothing container for grouping other initializers.</summary>
 	public class InstanceInitializer: EPInitializer<EP> {
 		public InstanceInitializer(params EPInitializer<EP>[] l):base(l) {}
 		public InstanceInitializer(Action<EP> a, params EPInitializer<EP>[] l):base(a,l) {}
 	}
 
-	/// <summary>Do nothin container for grouping other initializers.</summary>
+	/// <summary>Do nothing container for grouping other initializers.</summary>
 	public class StaticInitializer : EPInitializer<EPInfo> {
 		public StaticInitializer(params EPInitializer<EPInfo>[] l) : base(l) { }
 		public StaticInitializer(Action<EPInfo> a, params EPInitializer<EPInfo>[] l) : base(a, l) { }

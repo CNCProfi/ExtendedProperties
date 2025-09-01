@@ -63,7 +63,7 @@ namespace com.audionysos.general.props {
 		private PConstrianResult result;
 
 		/// <inheritdoc/>
-		public override PConstrianResult test(object nv) {
+		public override PConstrianResult test(object nv, object owner) {
 			var xd = (dynamic)max - (dynamic)nv;
 			var maxOk = xd > 0 || (includeMax && xd == 0);
 			if (!maxOk) { result = toBig.setCore((int)xd); return toBig; }
@@ -89,8 +89,8 @@ namespace com.audionysos.general.props {
 		//}
 
 		/// <inheritdoc/>
-		public override PConstrianResult correct<M>(M value, ref M c) {
-			if (!result) test(value);
+		public override PConstrianResult correct<M>(M value, ref M c, object owner) {
+			if (!result) test(value, owner);
 			if (result == inRange) c = value;
 			else if (result == toBig) c = (includeMax) ? max : Math.Round((dynamic)max - sub);
 			else if (result == toSmall) c = (includeMin) ? min : Math.Round((dynamic)min + add);
@@ -129,8 +129,8 @@ namespace com.audionysos.general.props {
 		}
 
 		/// <inheritdoc/>
-		public override PConstrianResult correct<T1>(T1 value, ref T1 current) {
-			if (!result) test(value);
+		public override PConstrianResult correct<T1>(T1 value, ref T1 current, object owner) {
+			if (!result) test(value, owner);
 			current = (T1)(object)list[ci];
 			var r = result; result = null;
 			return r;
@@ -140,7 +140,7 @@ namespace com.audionysos.general.props {
 		private int ci = -1;
 		private PConstrianResult result;
 		/// <inheritdoc/>
-		public override PConstrianResult test(object newValue) {
+		public override PConstrianResult test(object newValue, object owner) {
 			ci = -1; var bc = int.MinValue; result = null;
 			for (int i = 0; i < list.Length; i++) {
 				var av = list[i];

@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace com.audionysos.general.props.shorts {
-	/// <summary>Provides convient way to create new constrains</summary>
+	/// <summary>Provides convenient way to create new constrains</summary>
 	public class C {
 		/// <summary>Creates standard list of constrains where each constrain is applied one by one.
-		/// Constrains can be tested multiple times while aleready applied costrains make input value applicable for other constrians.</summary>
+		/// Constrains can be tested multiple times while already applied constrains make input value applicable for other constrains.</summary>
 		/// <param name="list"></param>
 		/// <returns></returns>
 		public static PConstrains onstrains(params PConstrain[] list) {
@@ -17,12 +17,17 @@ namespace com.audionysos.general.props.shorts {
 			return c;
 		}
 
+		/// <summary>Creates dynamic constrain by specifying constrains delegates.</summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="t">Testing the value without actual property setting.</param>
+		/// <param name="c">Value corrector which actually sets the property value after it was tested.</param>
+		/// <returns></returns>
 		public static CConstrian<T> onstrain<T>(ConstrainTester<T> t, ConstrainCorector<T> c) {
 			return new CConstrian<T>(t, c);
 		}
 
-		/// <summary>Creates constrains list where first valid constains (which allows for setting input value) is used and all other are skipped.
-		/// If no constrain can allow for given input and there are constrains which can correct it, costrain with hihest correctnes will be used.</summary>
+		/// <summary>Creates constrains list where first valid constrain (which allows for setting input value) is used and all other are skipped.
+		/// If no constrain can allow for given input and there are constrains which can correct it, constrain with highest correctness will be used.</summary>
 		/// <param name="list"></param>
 		/// <returns></returns>
 		public static PConstrains FirstValid(params PConstrain[] list) {
@@ -31,10 +36,10 @@ namespace com.audionysos.general.props.shorts {
 			return c;
 		}
 
-		/// <summary>Creates bounds constrian which limits imput value to specified upper and lower limit.</summary>
+		/// <summary>Creates bounds constrain which limits input value to specified upper and lower limit.</summary>
 		/// <typeparam name="T"></typeparam>
-		/// <param name="min">Mimimal value a property can take.</param>
-		/// <param name="max">Maxmimal value a property can take.</param>
+		/// <param name="min">Minimal value a property can take.</param>
+		/// <param name="max">Maximal value a property can take.</param>
 		/// <param name="includeMin">Specifies that a value can take given minimal value. If false, only smaller values are allowed.</param>
 		/// <param name="includeMax">Specifies that a value can take given maximal value. If false, only greater values are allowed.</param>
 		/// <returns></returns>
