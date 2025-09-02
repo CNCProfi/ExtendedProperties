@@ -2,9 +2,22 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+		<OutputType>Library</OutputType>
+		<AssemblyVersion>2.2.0.0</AssemblyVersion>
+		<Description>Extended Properties allow constructing complex objects properties with custom initializers and constrains.</Description>
+		<PackageProjectUrl>https://github.com/Audionysos/ExtendedProperties</PackageProjectUrl>
+		<IsNuGetPackage>true</IsNuGetPackage>
+		<PackageReadmeFile>readme.md</PackageReadmeFile>
+		<FileVersion>$(AssemblyVersion)</FileVersion>
+		<Version>$(AssemblyVersion)</Version>
+		
     <RootNamespace>com.audionysos.general</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
   </PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\EPSCommon\readme.md" Pack="true" PackagePath="\" />
+	</ItemGroup>
 
   <Import Project="..\EPSCommon\EPSCommon.projitems" Label="Shared" />
 

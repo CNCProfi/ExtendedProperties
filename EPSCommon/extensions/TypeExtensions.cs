@@ -4,6 +4,7 @@ using System.Text;
 
 namespace com.audionysos.general.extensions
 {
+    /// <summary></summary>
     public static class TypeExtensions {
         private static Dictionary<string, string> operators = new Dictionary<string, string>() {
             {"+", "op_Addition" },
@@ -18,9 +19,10 @@ namespace com.audionysos.general.extensions
             {"<", "op_LessThan" },
             {"==", "op_Equality" }
         };
-        /// <summary>Check if given type has specified operator (Not all supported right now).</summary>
-        /// <param name="op">Opertor representation as string.</param>
-        public static bool hasOperator(this Type t, string op){
+		/// <summary>Check if given type has specified operator (Not all supported right now).</summary>
+		/// <param name="t"></param>
+		/// <param name="op">Operator representation as string.</param>
+		public static bool hasOperator(this Type t, string op){
             var o = t.GetMethod(operators[op]);
             return o != null && o.IsSpecialName;
         }

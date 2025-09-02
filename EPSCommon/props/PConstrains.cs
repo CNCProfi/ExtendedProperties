@@ -9,8 +9,8 @@ using com.audionysos.general.extensions;
 
 namespace com.audionysos.general.props {
 
-	/// <summary>Base class for property constrains sets. This simply collects any property constrains and execute them on by one when <see cref="apply{T}(T, ref T)"/> is called.
-	/// The <see cref="PConstrain.correct{T}(T, ref T, object)"/> method is called in both cases - if <see cref="PConstrain.test(object, object)"/> result is <see cref="PCostrainStatus.PASSED"/> or <see cref="PCostrainStatus.CORRECTED"/>.
+	/// <summary>Base class for property constrains sets. This simply collects any property constrains and execute them on by one when <see cref="apply{T}(T, ref T, object)"/> is called.
+	/// The <see cref="PConstrain.correct{T}(T, ref T, object)"/> method is called in both cases - if <see cref="PConstrain.test(object, object)"/> result is <see cref="PConstrainStatus.PASSED"/> or <see cref="PConstrainStatus.CORRECTED"/>.
 	/// Otherwise, the property value is left unchanged.</summary>
 	public class PConstrains : PConstrain, IReadOnlyList<PConstrain>, IEnumerable<PConstrain> {
 
@@ -36,12 +36,12 @@ namespace com.audionysos.general.props {
 		/// <param name="property">Current property where value should be set.</param>
 		/// <param name="owner">Property's owner object instance. This argument is not always available, and need to be explicitly provided by the owner (see <see cref="EP.owner"/>).</param>
 		/// <returns></returns>
-		public virtual PConstrianResults apply<T>(T value, ref T property, object owner) {
-			var r = new PConstrianResults(list.Count);
+		public virtual PConstrainResults apply<T>(T value, ref T property, object owner) {
+			var r = new PConstrainResults(list.Count);
 			for (int i = 0; i < list.Count; i++) { var c = list[i];
 				var tr = c.test(value, owner);
-				if (tr.status == PCostrainStatus.PASSED ||
-					tr.status == PCostrainStatus.CORRECTED)
+				if (tr.status == PConstrainStatus.PASSED ||
+					tr.status == PConstrainStatus.CORRECTED)
 					c.correct(value, ref property, owner);
 				else pending.Add(c);
 			}
@@ -50,7 +50,7 @@ namespace com.audionysos.general.props {
 				pc = pending.Count;
 				for (int i = 0; i < pending.Count; i++) { var c = pending[i];
 					var tr = c.test(value, owner);
-					if (tr.status == PCostrainStatus.REFUSED) continue;
+					if (tr.status == PConstrainStatus.REFUSED) continue;
 					c.correct(value, ref property, owner);
 					pending.RemoveAt(i); i--;
 				}
@@ -60,15 +60,15 @@ namespace com.audionysos.general.props {
 		}
 
 		/// <inheritdoc/>
-		public override PConstrianResult test(object newValue, object owner) {
-			var r = new PConstrianResults(list.Count);
+		public override PConstrainResult test(object newValue, object owner) {
+			var r = new PConstrainResults(list.Count);
 			for (int i = 0; i < list.Count; i++) { var c = list[i];
 				r.Add(c.test(newValue, owner));
 			} return r;
 		}
 
 		/// <inheritdoc/>
-		public override PConstrianResult correct<T>(T value, ref T current, object owner) {
+		public override PConstrainResult correct<T>(T value, ref T current, object owner) {
 			return apply(value, ref current, owner);
 		}
 
@@ -90,14 +90,14 @@ namespace com.audionysos.general.props {
 	public class FirstValid : PConstrains {
 
 		/// <inheritdoc/>
-		public override PConstrianResults apply<T>(T value, ref T property, object owner) {
-			var r = new PConstrianResults(list.Count);
+		public override PConstrainResults apply<T>(T value, ref T property, object owner) {
+			var r = new PConstrainResults(list.Count);
 			var bc = int.MinValue; var bi = 0; //best correctness and it's index
 			for (int i = 0; i < list.Count; i++) { var c = list[i];
 				var tr = c.test(value, owner); r.Add(tr);
-				if (tr.status == PCostrainStatus.PASSED) { bi = i; break; }
-				if (tr.status == PCostrainStatus.CORRECTED &&
-					tr.correctnes > bc) { bc = tr.correctnes; bi = i; }
+				if (tr.status == PConstrainStatus.PASSED) { bi = i; break; }
+				if (tr.status == PConstrainStatus.CORRECTED &&
+					tr.correctness > bc) { bc = tr.correctness; bi = i; }
 			}
 			list[bi].correct(value, ref property, owner);
 			return r;
@@ -120,13 +120,13 @@ namespace com.audionysos.general.props {
 		/// <param name="current">Current value.</param>
 		/// <param name="owner">Property's owner object instance. This argument is not always available, and need to be explicitly provided by the owner (see <see cref="EP.owner"/>).</param>
 		/// <returns>Result of correction.</returns>
-		public abstract PConstrianResult correct<T>(T value, ref T current, object owner);
+		public abstract PConstrainResult correct<T>(T value, ref T current, object owner);
 
 		/// <summary>Test if given value can be set to the property.</summary>
 		/// <param name="newValue"></param>
 		/// <param name="owner">Property's owner object instance. This argument is not always available, and need to be explicitly provided by the owner (see <see cref="EP.owner"/>).</param>
 		/// <returns></returns>
-		public abstract PConstrianResult test(object newValue, object owner);
+		public abstract PConstrainResult test(object newValue, object owner);
 
 		/// <summary>False if null.</summary>
 		public static implicit operator bool(PConstrain c) => c != null;
@@ -135,14 +135,15 @@ namespace com.audionysos.general.props {
 	/// <summary>Delegate that is able to correct given new value and set it as current one.</summary>
 	/// <param name="value">New, requested value.</param>
 	/// <param name="current">Current value of a property to which change should be applied.</param>
-	public delegate PConstrianResult ConstrainCorector<CT>(CT value, ref CT current, object owner);
-	/// <summary>Delegate which test given newValue of a property and returns appropriate <see cref="PConstrianResult"/>.
-	/// If newValue is accepted by constrain without correcting it, the method should return result with <see cref="PCostrainStatus.PASSED"/> status.</summary>
-	public delegate PConstrianResult ConstrainTester<CT>(object newValue, object owner);
+	/// <param name="owner">Property's owner object instance.</param>
+	public delegate PConstrainResult ConstrainCorector<CT>(CT value, ref CT current, object owner);
+	/// <summary>Delegate which test given newValue of a property and returns appropriate <see cref="PConstrainResult"/>.
+	/// If newValue is accepted by constrain without correcting it, the method should return result with <see cref="PConstrainStatus.PASSED"/> status.</summary>
+	public delegate PConstrainResult ConstrainTester<CT>(object newValue, object owner);
 
 	/// <summary>Custom dynamic constrain. This can be used to specify constrain without implementing a new constrain class, by simply passing some constrain delegates.
 	/// A programmer can also write it's own constrain type by extending <see cref="PConstrain"/> class.</summary>
-	public class CConstrian<T> : PConstrain {
+	public class CConstrain<T> : PConstrain {
 
 		private ConstrainTester<T> tester;
 		private ConstrainCorector<T> corrector;
@@ -150,20 +151,20 @@ namespace com.audionysos.general.props {
 		/// <summary></summary>
 		/// <param name="tester">Tests each new value to which property suppose to be set without actual modification.</param>
 		/// <param name="corrector">Sets actual value of the property.</param>
-		public CConstrian(ConstrainTester<T> tester, ConstrainCorector<T> corrector) {
+		public CConstrain(ConstrainTester<T> tester, ConstrainCorector<T> corrector) {
 			this.tester = tester;
 			this.corrector = corrector;
 		}
 
 		/// <inheritdoc/>
-		public override PConstrianResult correct<IT>(IT value, ref IT current, object owner) {
+		public override PConstrainResult correct<IT>(IT value, ref IT current, object owner) {
 			var c = (T)(object)current;
 			var r = corrector?.Invoke((T)(object)value, ref c, owner);
 			current = (IT)(object)c; return r;
 		}
 
 		/// <inheritdoc/>
-		public override PConstrianResult test(object newValue, object owner) {
+		public override PConstrainResult test(object newValue, object owner) {
 			return tester.Invoke(newValue, owner);
 		}
 	}
@@ -183,32 +184,35 @@ namespace com.audionysos.general.props {
 
 
 	/// <summary>Represents result of a <see cref="PConstrain"/> application.</summary>
-	public class PConstrianResult {
+	public class PConstrainResult {
 		internal int _c;
 		/// <summary>Correctness value indicate how close to the correct/allowed value, given new value is.
 		/// This is used for example by <see cref="FirstValid"/> constrain to indicate which constrain should be used to correct given value.</summary>
-		public int correctnes => _c;
-		/// <summary>Sets <see cref="correctnes"/> value and returns this result.</summary>
-		public PConstrianResult setCore(int c) { _c = c; return this; }
+		public int correctness => _c;
+		/// <summary>Sets <see cref="correctness"/> value and returns this result.</summary>
+		public PConstrainResult setCore(int c) { _c = c; return this; }
 
 		/// <summary>Status of constrains.</summary>
-		protected PCostrainStatus _status;
+		protected PConstrainStatus _status;
 		/// <summary>Status of constrains.</summary>
-		public PCostrainStatus status => _status;
+		public PConstrainStatus status => _status;
 
 		/// <summary>The object or property which caused correction or refuse of input value.</summary>
 		protected object _cause;
 		/// <summary>The object or property which caused correction or refuse of input value.</summary>
 		public object cause => _cause;
 
+		/// <summary>Diagnostic information text describing the result.</summary>
+
 		protected string _info;
+		/// <summary>Diagnostic information text describing the result.</summary>
 		public string info => _info;
 
 		/// <summary></summary>
 		/// <param name="status"></param>
 		/// <param name="cause"></param>
 		/// <param name="info"></param>
-		public PConstrianResult(PCostrainStatus status, PConstrianResult cause = null, string info = null) {
+		public PConstrainResult(PConstrainStatus status, PConstrainResult cause = null, string info = null) {
 			this._status = status;
 			this._cause = cause;
 			this._info = info;
@@ -220,28 +224,28 @@ namespace com.audionysos.general.props {
 		}
 
 		/// <summary>False if null.</summary>
-		public static implicit operator bool(PConstrianResult r) => r!=null;
+		public static implicit operator bool(PConstrainResult r) => r!=null;
 	}
 
 	/// <summary>Contains a list of nested constrains results.
-	/// Status is set to reflect most restricted status of inner result i.e. if any of results is <see cref="PCostrainStatus.REFUSED"/> status of this collection will also be refused.</summary>
-	public class PConstrianResults : PConstrianResult, IEnumerable{
-		private readonly List<PConstrianResult> all;
+	/// Status is set to reflect most restricted status of inner result i.e. if any of results is <see cref="PConstrainStatus.REFUSED"/> status of this collection will also be refused.</summary>
+	public class PConstrainResults : PConstrainResult, IEnumerable{
+		private readonly List<PConstrainResult> all;
 
 		/// <summary></summary>
-		/// <param name="capcity">Initial capacity for nested results.</param>
-		public PConstrianResults(int capcity)
-			:base(PCostrainStatus.PASSED, null, "Initialized") {
-			all = new List<PConstrianResult>(capcity);
+		/// <param name="capacity">Initial capacity for nested results.</param>
+		public PConstrainResults(int capacity)
+			:base(PConstrainStatus.PASSED, null, "Initialized") {
+			all = new List<PConstrainResult>(capacity);
 		}
 
 		/// <summary>Adds new nested result.</summary>
-		public void Add(PConstrianResult r) {
+		public void Add(PConstrainResult r) {
 			all.Add(r);
 			if (//_status != PCostrainStatus.REFUSED &&
-				r.status == PCostrainStatus.CORRECTED)
+				r.status == PConstrainStatus.CORRECTED)
 				{ _status = r.status; _info = "Corrected by inner constrain."; }
-			else if (r.status == PCostrainStatus.REFUSED)
+			else if (r.status == PConstrainStatus.REFUSED)
 				{ _status = r.status; _info = "Refused by inner constrain."; } 
 		}
 
@@ -249,11 +253,11 @@ namespace com.audionysos.general.props {
 		public IEnumerator GetEnumerator() => all.GetEnumerator();
 
 		/// <summary>False if null.</summary>
-		public static implicit operator bool(PConstrianResults r) => r != null;
+		public static implicit operator bool(PConstrainResults r) => r != null;
 	}
 
 	/// <summary>Enumerates possible states of result of applying <see cref="PConstrain"/>.</summary>
-	public enum PCostrainStatus {
+	public enum PConstrainStatus {
 		/// <summary>Constrain test has passed successfully and given input value is correct.</summary>
 		PASSED,
 		/// <summary>Constrain not allow given input but it can be corrected to allowed value.</summary>

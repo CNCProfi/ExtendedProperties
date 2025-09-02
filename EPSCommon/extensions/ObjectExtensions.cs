@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace com.audionysos.general.extensions
 {
+	/// <summary>Some common helper extension methods.</summary>
     public static class ObjectExtensions {
-		/// <summary>Repeats given action on this object givnen number of times.</summary>
+		/// <summary>Repeats given action on this object given number of times.</summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="o"></param>
 		/// <param name="n">Number of time the action should be called.</param>
@@ -14,7 +13,7 @@ namespace com.audionysos.general.extensions
 			for (int i = 0; i < n; i++) a(o);
 		}
 
-		/// <summary>Repeats given action on this object givnen number of times.</summary>
+		/// <summary>Repeats given action on this object given number of times.</summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="o"></param>
 		/// <param name="n">Number of time the action should be called.</param>
@@ -24,7 +23,7 @@ namespace com.audionysos.general.extensions
 		}
 
 		/// <summary>Returns true if this object is any type of number (int, double, short etc.).</summary>
-		public static bool isNumer<T>(this T n) {
+		public static bool isNumber<T>(this T n) {
 			if (n is int) return true;
 			if (n is double) return true;
 			if (n is uint) return true;

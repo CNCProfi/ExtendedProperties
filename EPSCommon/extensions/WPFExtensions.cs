@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace com.audionysos.general.extensions {
+﻿namespace com.audionysos.general.extensions {
+	/// <summary></summary>
 	public static class WPFExtensions {
 		///// <summary>Returns representation of the color as ARGB color.</summary>
 		//public static uint ToUint(this System.Windows.Media.Color c) {

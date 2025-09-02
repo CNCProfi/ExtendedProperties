@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace com.audionysos.general.extensions {
+
+	/// <summary>Some helper extension methods for managing collections.</summary>
 	public static class CollectionsExtensions {
 
 
-		/// <summary>Read property value of given object specified by given record</summary>
-		/// <returns></returns>
+		///// <summary>Read property value of given object specified by given record</summary>
+		///// <returns></returns>
 		//public static object readProperty(this object o, FEInterfaceRec r) {
 		//	var p = r.pClass.GetProperty(r.address);
 		//	return (p != null) ? p.GetValue(o) : r.pClass.GetField(r.address).GetValue(o);
@@ -16,16 +18,16 @@ namespace com.audionysos.general.extensions {
 
 
 
-		/// <summary>Toogle window state between normal and maximized</summary>
-		/// <param name="w"></param>
-		//public static void toogleState(this Window w) {
+		///// <summary>Toggle window state between normal and maximized</summary>
+		///// <param name="w"></param>
+		//public static void toggleState(this Window w) {
 		//	if (w.WindowState != WindowState.Normal) w.WindowState = WindowState.Normal;
 		//	else w.WindowState = WindowState.Maximized;
 		//}
 
 		/// <summary>Create string from given max count of items.</summary>
 		/// <param name="arr"></param>
-		/// <param name="max">Maximou number of items to create string from (starts from 0)</param>
+		/// <param name="max">Maximum number of items to create string from (starts from 0)</param>
 		/// <returns></returns>
 		public static string print(this IList arr, int max = 100) {
 			var c = (max < arr.Count) ? max : arr.Count;
@@ -42,7 +44,7 @@ namespace com.audionysos.general.extensions {
 			return s + "]";
 		}
 
-		/// <summary>Make <see cref="List{Object}"/> from this list. Optionaly add elements at beginning and end of new list.</summary>
+		/// <summary>Make <see cref="List{Object}"/> from this list. Optionally add elements at beginning and end of new list.</summary>
 		/// <param name="arr"></param>
 		/// <param name="start">List of elements which will start new list.</param>
 		/// <param name="end">List of elements added at end of new list.</param>
@@ -83,7 +85,7 @@ namespace com.audionysos.general.extensions {
 			return e;
 		}
 
-		/// <summary>Fills list with given item object, starting from 0 and up to givnen count.
+		/// <summary>Fills list with given item object, starting from 0 and up to given count.
 		/// If list is to short, new item will be added.</summary>
 		public static void fill(this IList arr, int count, object item = null) {
 			for (int i = 0; i < arr.Count; i++) arr[i] = item;
@@ -96,7 +98,7 @@ namespace com.audionysos.general.extensions {
 			else arr.Add(item);
 		}
 
-		/// <summary>Set item at given index. If the list is shorted than given index, "empty" will added to missing idices lowe than target index.</summary>
+		/// <summary>Set item at given index. If the list is shorted than given index, "empty" will added to missing indices lower than target index.</summary>
 		public static void placeAt(this IList arr, int index, object item, object empty = null) {
 			var d = index - arr.Count; //missing items (difference)
 			while (d >= 0) { arr.Add(empty); d--; }

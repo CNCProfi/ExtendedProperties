@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 
 namespace com.audionysos.general.extensions {
+	/// <summary></summary>
 	public static class StringExtensions {
 
 		//TODO: Make the string builder thread static
 		private static StringBuilder sb = new StringBuilder();
-		/// <summary>Reapeats string given number of times.</summary>
+		/// <summary>Repeats string given number of times.</summary>
 		/// <param name="pat">pattern string</param>
 		/// <param name="times">how many times to repat.</param>
 		public static string repeat(this string pat, int times) {

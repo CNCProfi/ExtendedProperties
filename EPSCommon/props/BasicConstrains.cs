@@ -43,27 +43,27 @@ namespace com.audionysos.general.props {
 				(max as EP).listenEvent(d, EPEvents.CHANGED);
 			}
 			if (!t.hasOperators("<", ">", "==")) throw new Exception("Type of value don't support required operators (<,>,==).");
-			if ((!includeMax || !includeMin) && !min.isNumer()) throw new Exception("min and max values can be only excluded from range if value type is numeric type.");
+			if ((!includeMax || !includeMin) && !min.isNumber()) throw new Exception("min and max values can be only excluded from range if value type is numeric type.");
 			this.min = min;
 			this.max = max;
 			this.includeMin = includeMin;
 			this.includeMax = includeMax;
 		}
 
-		public void onBoundsChanged<ET>(EPEvent<ET> e) {
+		private void onBoundsChanged<ET>(EPEvent<ET> e) {
 			fireChangeEvent();
 		}
 
-		private PConstrianResult inRange = new PConstrianResult(
-			PCostrainStatus.PASSED, null, null);
-		private PConstrianResult toBig = new PConstrianResult(
-			PCostrainStatus.CORRECTED, null, "Given value is to big.");
-		private PConstrianResult toSmall = new PConstrianResult(
-			PCostrainStatus.CORRECTED, null, "Given value is to small.");
-		private PConstrianResult result;
+		private PConstrainResult inRange = new PConstrainResult(
+			PConstrainStatus.PASSED, null, null);
+		private PConstrainResult toBig = new PConstrainResult(
+			PConstrainStatus.CORRECTED, null, "Given value is to big.");
+		private PConstrainResult toSmall = new PConstrainResult(
+			PConstrainStatus.CORRECTED, null, "Given value is to small.");
+		private PConstrainResult result;
 
 		/// <inheritdoc/>
-		public override PConstrianResult test(object nv, object owner) {
+		public override PConstrainResult test(object nv, object owner) {
 			var xd = (dynamic)max - (dynamic)nv;
 			var maxOk = xd > 0 || (includeMax && xd == 0);
 			if (!maxOk) { result = toBig.setCore((int)xd); return toBig; }
@@ -89,7 +89,7 @@ namespace com.audionysos.general.props {
 		//}
 
 		/// <inheritdoc/>
-		public override PConstrianResult correct<M>(M value, ref M c, object owner) {
+		public override PConstrainResult correct<M>(M value, ref M c, object owner) {
 			if (!result) test(value, owner);
 			if (result == inRange) c = value;
 			else if (result == toBig) c = (includeMax) ? max : Math.Round((dynamic)max - sub);
@@ -129,7 +129,7 @@ namespace com.audionysos.general.props {
 		}
 
 		/// <inheritdoc/>
-		public override PConstrianResult correct<T1>(T1 value, ref T1 current, object owner) {
+		public override PConstrainResult correct<T1>(T1 value, ref T1 current, object owner) {
 			if (!result) test(value, owner);
 			current = (T1)(object)list[ci];
 			var r = result; result = null;
@@ -138,14 +138,14 @@ namespace com.audionysos.general.props {
 
 		/// <summary>Closest index.</summary>
 		private int ci = -1;
-		private PConstrianResult result;
+		private PConstrainResult result;
 		/// <inheritdoc/>
-		public override PConstrianResult test(object newValue, object owner) {
+		public override PConstrainResult test(object newValue, object owner) {
 			ci = -1; var bc = int.MinValue; result = null;
 			for (int i = 0; i < list.Length; i++) {
 				var av = list[i];
 				if (newValue.Equals(av)) {
-					result = new PConstrianResult(PCostrainStatus.PASSED);
+					result = new PConstrainResult(PConstrainStatus.PASSED);
 					bc = int.MaxValue;
 					ci = i; break;
 				} else {
@@ -153,7 +153,7 @@ namespace com.audionysos.general.props {
 					if (bc < c) { bc = (int)c; ci = i; }
 				}
 			}
-			if (!result) result = new PConstrianResult(PCostrainStatus.CORRECTED);
+			if (!result) result = new PConstrainResult(PConstrainStatus.CORRECTED);
 			result.setCore(bc);
 			return result;
 		}

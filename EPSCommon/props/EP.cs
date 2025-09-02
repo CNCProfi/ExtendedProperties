@@ -34,7 +34,7 @@ namespace com.audionysos.general.props {
 
 		/// <summary>Creates new extended property info.</summary>
 		/// <param name="owner">Type which owns described property.</param>
-		/// <param name="address">Property name defined in owner type, usually acquired with <see cref="nameof"/> syntax.</param>
+		/// <param name="address">Property name defined in owner type, usually acquired with `nameof(...)` syntax.</param>
 		/// <param name="staticInitializer">Static initializer invoked once after whole info abject is set.
 		/// You can use existing initializers or write you own to perform any additional stuff needed when property is define.
 		/// Static initializers should not be reused by different properties/<see cref="EPInfo"/> instances. If you want to share common setup, for many properties, created a method or property that is creating new instances of initializers.</param>

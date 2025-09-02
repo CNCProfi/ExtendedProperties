@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace com.audionysos.general.props.shorts {
+﻿namespace com.audionysos.general.props.shorts {
 	/// <summary>Provides convenient way to create new constrains</summary>
 	public class C {
 		/// <summary>Creates standard list of constrains where each constrain is applied one by one.
@@ -22,8 +16,8 @@ namespace com.audionysos.general.props.shorts {
 		/// <param name="t">Testing the value without actual property setting.</param>
 		/// <param name="c">Value corrector which actually sets the property value after it was tested.</param>
 		/// <returns></returns>
-		public static CConstrian<T> onstrain<T>(ConstrainTester<T> t, ConstrainCorector<T> c) {
-			return new CConstrian<T>(t, c);
+		public static CConstrain<T> onstrain<T>(ConstrainTester<T> t, ConstrainCorector<T> c) {
+			return new CConstrain<T>(t, c);
 		}
 
 		/// <summary>Creates constrains list where first valid constrain (which allows for setting input value) is used and all other are skipped.
