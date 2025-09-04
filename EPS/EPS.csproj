@@ -16,7 +16,7 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<None Include="..\EPSCommon\readme.md" Pack="true" PackagePath="\" />
+		<None Include="..\readme.md" Pack="true" PackagePath="\" />
 	</ItemGroup>
 
   <Import Project="..\EPSCommon\EPSCommon.projitems" Label="Shared" />

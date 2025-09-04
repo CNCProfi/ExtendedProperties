@@ -22,7 +22,4 @@
     <Compile Include="$(MSBuildThisFileDirectory)props\shorts\I.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)utils\lo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)readme.md" />
-  </ItemGroup>
 </Project>
