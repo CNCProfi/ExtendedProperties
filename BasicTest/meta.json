@@ -1,0 +1,17 @@
+{
+  "state": {
+    "overall": "UNKNOWN",
+    "percentage": 0
+  },
+  "tags": [],
+  "info": {
+    "sentence": "",
+    "info": null,
+    "details": null
+  },
+  "nonTechnical": {
+    "sentence": "Podstaowe testy automatyczne biblioteki.",
+    "info": null,
+    "details": null
+  }
+}
