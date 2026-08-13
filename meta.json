@@ -1,0 +1,17 @@
+{
+  "state": {
+    "overall": "UNKNOWN",
+    "percentage": 0
+  },
+  "tags": [],
+  "info": {
+    "sentence": "",
+    "info": null,
+    "details": null
+  },
+  "nonTechnical": {
+    "sentence": "Zawiera bibliotek\u0119 pozwalaj\u0105cej na opisywanie z\u0142o\u017Conych w\u0142asciwo\u015Bci struktur danych oraz spobu ich przetwarzania.",
+    "info": null,
+    "details": null
+  }
+}
