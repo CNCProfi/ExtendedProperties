@@ -3,7 +3,60 @@
     "overall": "UNKNOWN",
     "percentage": 0
   },
-  "tags": [],
+  "tags": [
+    {
+      "symbol": "\uD83D\uDCDA",
+      "abr": "lib",
+      "name": "Library",
+      "fullName": "Library",
+      "info": {
+        "sentence": "Provides base code for other application.",
+        "info": null,
+        "details": null
+      },
+      "uniqueShortName": "",
+      "bracketedShortName": ""
+    },
+    {
+      "symbol": "\uD83E\uDDF1",
+      "abr": "bs",
+      "name": "Base",
+      "fullName": "Base",
+      "info": {
+        "sentence": "Similar to \u0060Core\u0060, this provides basic code that is generally not used on it\u0027s own, with the difference that \u0060Base\u0060 covers some limited, more specific scope applications.",
+        "info": null,
+        "details": null
+      },
+      "uniqueShortName": "",
+      "bracketedShortName": ""
+    },
+    {
+      "symbol": "\uD83C\uDFAE",
+      "abr": "int",
+      "name": "Interface",
+      "fullName": "Interface",
+      "info": {
+        "sentence": "As oppose to graphical user interface, this can mark any interface dedicated for human use, including external devices.",
+        "info": null,
+        "details": null
+      },
+      "uniqueShortName": "",
+      "bracketedShortName": ""
+    },
+    {
+      "symbol": "\uD83D\uDC8E",
+      "abr": "stb",
+      "name": "Stable",
+      "fullName": "Stable",
+      "info": {
+        "sentence": "Project has a crystalized form and is not expected to be changed in any significant way.",
+        "info": null,
+        "details": null
+      },
+      "uniqueShortName": "",
+      "bracketedShortName": ""
+    }
+  ],
   "info": {
     "sentence": "",
     "info": null,
@@ -13,5 +66,37 @@
     "sentence": "Bibloteka na pocz\u0105tkowy, starszy standard.",
     "info": null,
     "details": null
+  },
+  "stats": {
+    "lastScan": "2026-08-21T17:27:47.2945522Z",
+    "relativeSize": 0.17578198047698004,
+    "files": {
+      "total": 4,
+      "code": 1,
+      "config": 3,
+      "doc": 0,
+      "media": 0,
+      "other": 0
+    },
+    "lines": {
+      "total": 141,
+      "code": 36,
+      "config": 105,
+      "doc": 0,
+      "media": 0,
+      "other": 0
+    },
+    "code": {
+      "types": 0,
+      "members": 0,
+      "methods": 0
+    },
+    "updates": {
+      "any": "2026-08-21T12:37:13.7680442Z",
+      "code": "2026-06-30T03:09:25.9595005Z",
+      "config": "2026-08-21T12:37:13.7680442Z",
+      "other": "0001-01-01T00:00:00"
+    },
+    "created": "2026-06-30T03:09:25.9545025Z"
   }
 }

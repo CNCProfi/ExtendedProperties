@@ -11,7 +11,39 @@
   },
   "nonTechnical": {
     "sentence": "Zawiera bibliotek\u0119 pozwalaj\u0105cej na opisywanie z\u0142o\u017Conych w\u0142asciwo\u015Bci struktur danych oraz spobu ich przetwarzania.",
-    "info": null,
+    "info": "Dok\u0142adne opisanie poszczeg\u00F3lnych w\u0142a\u015Bciwo\u015Bci ju\u017C na poziomie definicji danych pozwala na szybkie dodawanie nowy obiekt\u00F3w lub narz\u0119dzi do programu CAD bez konieczno\u015Bci tworzenia dedykowanego interfejsu graficznego dla ka\u017Cdego z nich - interfejs generowany jest automatycznie na podstawie opisanych regu\u0142.\r\n\r\nDzi\u0119ki tej bibliotece przyk\u0142adowo mo\u017Cliwe jest zdefiniowanie promienia ko\u0142a dodaj\u0105c wielostopniowe opisy dla u\u017Cytkownika (wy\u015Bwietlane w dymkach), zakresu akceptowalnych warto\u015Bci czy pr\u0119dko\u015Bci z jak\u0105 warto\u015B\u0107 jest zmieniana.\r\n\r\nBiblioteka ta jest umieszczona w osobnym repozytorium poniewa\u017C jest to tak zwany \u0022fork\u0022 (niezale\u017Cnie rozwijana kopia) mojego prywatnego projektu, kt\u00F3ra zosta\u0142a zaadoptowana na potrzeby bibliotek CNC Profi.\r\n\r\n\r\n",
     "details": null
+  },
+  "stats": {
+    "lastScan": "2026-08-21T19:28:16.987111+02:00",
+    "relativeSize": 0.3349418534947848,
+    "files": {
+      "total": 11,
+      "code": 3,
+      "config": 8,
+      "doc": 0,
+      "media": 0,
+      "other": 0
+    },
+    "lines": {
+      "total": 447,
+      "code": 133,
+      "config": 314,
+      "doc": 0,
+      "media": 0,
+      "other": 0
+    },
+    "code": {
+      "types": 0,
+      "members": 0,
+      "methods": 0
+    },
+    "updates": {
+      "any": "2026-08-21T12:37:13.7680442Z",
+      "code": "0001-01-01T00:00:00",
+      "config": "2026-08-21T12:37:13.7680442Z",
+      "other": "0001-01-01T00:00:00"
+    },
+    "created": "2026-06-30T03:09:25.9445012Z"
   }
 }

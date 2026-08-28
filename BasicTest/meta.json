@@ -3,7 +3,73 @@
     "overall": "UNKNOWN",
     "percentage": 0
   },
-  "tags": [],
+  "tags": [
+    {
+      "symbol": "\uD83D\uDC77",
+      "abr": "tec",
+      "name": "Technical",
+      "fullName": "Technical",
+      "info": {
+        "sentence": "Doesn\u0027t provide any particular features by itself but is required for other project by development infrastructure.",
+        "info": null,
+        "details": null
+      },
+      "uniqueShortName": "",
+      "bracketedShortName": ""
+    },
+    {
+      "symbol": "\uD83D\uDCDA",
+      "abr": "lib",
+      "name": "Library",
+      "fullName": "Library",
+      "info": {
+        "sentence": "Provides base code for other application.",
+        "info": null,
+        "details": null
+      },
+      "uniqueShortName": "",
+      "bracketedShortName": ""
+    },
+    {
+      "symbol": "\uD83E\uDDBE",
+      "abr": "atm",
+      "name": "Automatization",
+      "fullName": "Automatization",
+      "info": {
+        "sentence": "Eliminates a need of manual labor to various extent.",
+        "info": null,
+        "details": null
+      },
+      "uniqueShortName": "",
+      "bracketedShortName": ""
+    },
+    {
+      "symbol": "\uD83E\uDDEA",
+      "abr": "tst",
+      "name": "Testing",
+      "fullName": "Testing",
+      "info": {
+        "sentence": "Involved in product pre-release testing.",
+        "info": null,
+        "details": null
+      },
+      "uniqueShortName": "",
+      "bracketedShortName": ""
+    },
+    {
+      "symbol": "\uD83D\uDC8E",
+      "abr": "stb",
+      "name": "Stable",
+      "fullName": "Stable",
+      "info": {
+        "sentence": "Project has a crystalized form and is not expected to be changed in any significant way.",
+        "info": null,
+        "details": null
+      },
+      "uniqueShortName": "",
+      "bracketedShortName": ""
+    }
+  ],
   "info": {
     "sentence": "",
     "info": null,
@@ -13,5 +79,37 @@
     "sentence": "Podstaowe testy automatyczne biblioteki.",
     "info": null,
     "details": null
+  },
+  "stats": {
+    "lastScan": "2026-08-21T17:27:47.289763Z",
+    "relativeSize": 0.2867365638986199,
+    "files": {
+      "total": 5,
+      "code": 2,
+      "config": 3,
+      "doc": 0,
+      "media": 0,
+      "other": 0
+    },
+    "lines": {
+      "total": 230,
+      "code": 97,
+      "config": 133,
+      "doc": 0,
+      "media": 0,
+      "other": 0
+    },
+    "code": {
+      "types": 0,
+      "members": 0,
+      "methods": 0
+    },
+    "updates": {
+      "any": "2026-08-21T12:37:13.7654554Z",
+      "code": "2026-06-30T03:09:25.9505031Z",
+      "config": "2026-08-21T12:37:13.7654554Z",
+      "other": "0001-01-01T00:00:00"
+    },
+    "created": "2026-06-30T03:09:25.9445012Z"
   }
 }
